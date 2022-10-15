@@ -14,6 +14,24 @@ export const translate = (word: string) => {
     from = 'zh';
     to='en';
   }
+  interface ErrorMap{
+    [key:string]:string
+  }
+  const errorMap:ErrorMap = {
+     52000:"成功",
+     52001:"请求超时",
+     52002:"系统错误",
+     52003:"未授权用户",
+     54000:"必填参数为空",
+     54001:"签名错误 ",
+     54003:"访问频率受限 ",
+     54004:"账户余额不足 ",
+     54005:"长query请求频繁",
+     58000:"客户端IP非法 	 ",
+     58001:"译文语言方向不支持 ",
+     58002:"服务当前已关闭 	 ",
+     90107:"认证未通过或未生效 "
+}
   const query = querystring.stringify({q: word, from, to, appid: appId, salt, sign});
   const options = {
     hostname: 'fanyi-api.baidu.com',
@@ -36,8 +54,9 @@ export const translate = (word: string) => {
         error_msg?: string
       };
       const result: BaiduResult = JSON.parse(string);
-      if (result.error_msg) {
-        console.log(result.error_msg);
+      if (result.error_code) {
+        // console.log(result.error_msg);
+        console.log(errorMap[result.error_code]);
       }else{
         console.log(result.trans_result[0].dst);
       }

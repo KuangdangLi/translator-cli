@@ -2,3 +2,5 @@
 /.idea/
 /yarn.lock
 /src/private.ts
+/dist/
+/tsconfig.json
